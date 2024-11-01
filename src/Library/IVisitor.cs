@@ -1,6 +1,7 @@
-namespace Library;
-
-public interface IVisitor
+namespace Library
 {
-    void Visit(Node node);
+    public interface IVisitor<T>
+    {
+        void Visit(Node<T> node);
+    }
 }

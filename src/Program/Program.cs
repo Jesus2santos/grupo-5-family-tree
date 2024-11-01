@@ -7,27 +7,45 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            Node n1 = new Node(1);
-            Node n2 = new Node(2);
-            Node n3 = new Node(3);
-            Node n4 = new Node(4);
-            Node n5 = new Node(5);
-            Node n6 = new Node(6);
-            Node n7 = new Node(7);
+            // Creación de personas
+            var person1 = new Person("Alice", 70);
+            var person2 = new Person("Bob", 50);
+            var person3 = new Person("Charlie", 45);
+            var person4 = new Person("Diana", 20);
+            var person5 = new Person("Eve", 18);
+            var person6 = new Person("Frank", 15);
+            var person7 = new Person("Grace", 10);
 
-            n1.AddChildren(n2);
-            n1.AddChildren(n3);
+            // Creación del árbol genealógico
+            var root = new Node<Person>(person1);
+            var child1 = new Node<Person>(person2);
+            var child2 = new Node<Person>(person3);
+            var grandchild1 = new Node<Person>(person4);
+            var grandchild2 = new Node<Person>(person5);
+            var grandchild3 = new Node<Person>(person6);
+            var grandchild4 = new Node<Person>(person7);
 
-            n2.AddChildren(n4);
-            n2.AddChildren(n5);
+            // Estructura del árbol
+            root.AddChildren(child1);
+            root.AddChildren(child2);
+            child1.AddChildren(grandchild1);
+            child1.AddChildren(grandchild2);
+            child2.AddChildren(grandchild3);
+            child2.AddChildren(grandchild4);
 
-            n3.AddChildren(n6);
-            n3.AddChildren(n7);
+            // Aplicación de visitantes
+            var ageSumVisitor = new AgeSumVisitor();
+            var oldestChildVisitor = new OldestChildVisitor();
+            var longestNameVisitor = new LongestNameVisitor();
 
-            // visitar el árbol aquí
-            SumVisitor visitor = new SumVisitor();
-            n1.Accept(visitor);
-            Console.WriteLine(visitor.Sum);
+            root.Accept(ageSumVisitor);
+            root.Accept(oldestChildVisitor);
+            root.Accept(longestNameVisitor);
+
+            // Resultados
+            Console.WriteLine($"Suma de las edades: {ageSumVisitor.AgeSum}");
+            Console.WriteLine($"Edad del hijo más grande: {oldestChildVisitor.OldestChildAge}");
+            Console.WriteLine($"Nombre más largo: {longestNameVisitor.LongestName}");
         }
     }
 }
